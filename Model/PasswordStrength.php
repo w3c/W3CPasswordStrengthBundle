@@ -3,8 +3,7 @@
  * PasswordStrength.php
  *
  * @author Jean-Guilhem Rouel <jean-gui@w3.org>
- * @author Denis Ah-Kang <denis@w3.org>
- * @author Vivien Lacourba <vivien@w3.org>
+ * Based on Jeff Todnem's password meter - http://www.passwordmeter.com/
  *
  * @copyright Copyright © 2011 W3C ® (MIT, ERCIM, Keio) {@link http://www.w3.org/Consortium/Legal/2002/ipr-notice-20021231 Usage policies apply}.
  */
