@@ -18,7 +18,9 @@
     },
     "require-dev": {
         "symfony/yaml": "~2.1",
-        "symfony/validator": "~2.1"
+        "symfony/validator": "~2.1",
+        "friendsofsymfony/rest-bundle": "1.0.*",
+        "jms/serializer-bundle": "0.12.*"
     },
     "autoload": {
         "psr-0": { "W3C\\PasswordStrengthBundle": "" }
