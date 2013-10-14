@@ -1,0 +1,6 @@
+services:
+    w3c.validator.passwordstrength:
+        class:        W3C\PasswordStrengthBundle\Component\Validator\Constraints\PasswordStrengthValidator
+        tags:
+                - { name: validator.constraint_validator, alias: w3c.validator.passwordstrength }
+
