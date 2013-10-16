@@ -19,14 +19,14 @@ class PasswordStrength {
     /**
      * Number of lowercase alphabetical characters in the password
      */
-    public $nAlphaUC = 0;
-    public $sAlphaUC = 0;
+    public $nAlphaUpperCase = 0;
+    public $sAlphaUpperCase = 0;
 
     /**
      * Number of uppercase alphabetical characters in the password
      */
-    public $nAlphaLC = 0;
-    public $sAlphaLC = 0;
+    public $nAlphaLowerCase = 0;
+    public $sAlphaLowerCase = 0;
 
     /**
      * Number of numbers in the password
@@ -55,11 +55,11 @@ class PasswordStrength {
     public $nRepChar = 0;
     public $sRepChar = 0;
 
-    public $nConsecAlphaUC = 0;
-    public $sConsecAlphaUC = 0;
+    public $nConsecAlphaUpperCase = 0;
+    public $sConsecAlphaUpperCase = 0;
 
-    public $nConsecAlphaLC = 0;
-    public $sConsecAlphaLC = 0;
+    public $nConsecAlphaLowerCase = 0;
+    public $sConsecAlphaLowerCase = 0;
 
     public $nConsecNumber = 0;
     public $sConsecNumber = 0;
@@ -83,31 +83,31 @@ class PasswordStrength {
      */
     public $score = 0;
 
-    public $nMultAlphaUC;
-    public $nMultAlphaLC;
+    public $nMultAlphaUpperCase;
+    public $nMultAlphaLowerCase;
     public $nMultNumber;
     public $nMultSymbol;
     public $nMultMidChar;
 
-    public $nMultConsecAlphaUC;
-    public $nMultConsecAlphaLC;
+    public $nMultConsecAlphaUpperCase;
+    public $nMultConsecAlphaLowerCase;
     public $nMultConsecNumber;
 
     public $nMultSeqAlpha;
     public $nMultSeqNumber;
 
     public function __construct($nMultLength=4,
-                                $nMultAlphaUC=2, $nMultAlphaLC=2, $nMultNumber=4, $nMultSymbol=6, $nMultMidChar=2,
-                                $nMultConsecAlphaUC=2, $nMultConsecAlphaLC=2, $nMultConsecNumber=2,
+                                $nMultAlphaUpperCase=2, $nMultAlphaLowerCase=2, $nMultNumber=4, $nMultSymbol=6, $nMultMidChar=2,
+                                $nMultConsecAlphaUpperCase=2, $nMultConsecAlphaLowerCase=2, $nMultConsecNumber=2,
                                 $nMultSeqAlpha=3, $nMultSeqNumber=3) {
         $this->nMultLength = $nMultLength;
-        $this->nMultAlphaUC = $nMultAlphaUC;
-        $this->nMultAlphaLC = $nMultAlphaLC;
+        $this->nMultAlphaUpperCase = $nMultAlphaUpperCase;
+        $this->nMultAlphaLowerCase = $nMultAlphaLowerCase;
         $this->nMultNumber = $nMultNumber;
         $this->nMultSymbol = $nMultSymbol;
         $this->nMultMidChar = $nMultMidChar;
-        $this->nMultConsecAlphaUC = $nMultConsecAlphaUC;
-        $this->nMultConsecAlphaLC = $nMultConsecAlphaLC;
+        $this->nMultConsecAlphaUpperCase = $nMultConsecAlphaUpperCase;
+        $this->nMultConsecAlphaLowerCase = $nMultConsecAlphaLowerCase;
         $this->nMultConsecNumber = $nMultConsecNumber;
         $this->nMultSeqAlpha = $nMultSeqAlpha;
         $this->nMultSeqNumber = $nMultSeqNumber;
@@ -119,7 +119,7 @@ class PasswordStrength {
     public function getComplexity() {
         if ($this->score < 20) { return "Very Weak"; }
         else if ($this->score >= 20 && $this->score < 40) { return "Weak"; }
-        else if ($this->score >= 40 && $this->score < 60) { return "Good"; }
+        else if ($this->score >= 40 && $this->score < 60) { return "Sufficient"; }
         else if ($this->score >= 60 && $this->score < 80) { return "Strong"; }
         else if ($this->score >= 80) { return "Very Strong"; }
     }
@@ -141,17 +141,17 @@ class PasswordStrength {
         $this->setGoodScores();
         $this->setBadScores();
 
-        $this->score = $this->sLength + $this->sAlphaUC + $this->sAlphaLC + $this->sAlphasOnly + $this->sConsecAlphaLC + $this->sConsecAlphaUC + $this->sConsecNumber + $this->sMidChar + $this->sNumber + $this->sNumbersOnly + $this->sRepChar + $this->sSeqAlpha + $this->sSeqNumber + $this->sSymbol;
+        $this->score = $this->sLength + $this->sAlphaUpperCase + $this->sAlphaLowerCase + $this->sAlphasOnly + $this->sConsecAlphaLowerCase + $this->sConsecAlphaUpperCase + $this->sConsecNumber + $this->sMidChar + $this->sNumber + $this->sNumbersOnly + $this->sRepChar + $this->sSeqAlpha + $this->sSeqNumber + $this->sSymbol;
     }
 
     private function setGoodScores() {
         $this->sLength = $this->nLength * $this->nMultLength;
         /* General point assignment */
-        if ($this->nAlphaUC > 0 && $this->nAlphaUC < $this->nLength) {
-            $this->sAlphaUC = ($this->nLength - $this->nAlphaUC) * $this->nMultAlphaUC;
+        if ($this->nAlphaUpperCase > 0 && $this->nAlphaUpperCase < $this->nLength) {
+            $this->sAlphaUpperCase = ($this->nLength - $this->nAlphaUpperCase) * $this->nMultAlphaUpperCase;
         }
-        if ($this->nAlphaLC > 0 && $this->nAlphaLC < $this->nLength) {
-            $this->sAlphaLC = ($this->nLength - $this->nAlphaLC) * 2;
+        if ($this->nAlphaLowerCase > 0 && $this->nAlphaLowerCase < $this->nLength) {
+            $this->sAlphaLowerCase = ($this->nLength - $this->nAlphaLowerCase) * 2;
         }
         if ($this->nNumber > 0 && $this->nNumber < $this->nLength) {
             $this->sNumber = $this->nNumber * $this->nMultNumber;
@@ -166,22 +166,22 @@ class PasswordStrength {
 
     private function setBadScores() {
         /* Point deductions for poor practices */
-        if (($this->nAlphaLC > 0 || $this->nAlphaUC > 0) && $this->nSymbol === 0 && $this->nNumber === 0) {  // Only Letters
+        if (($this->nAlphaLowerCase > 0 || $this->nAlphaUpperCase > 0) && $this->nSymbol === 0 && $this->nNumber === 0) {  // Only Letters
             $this->nAlphasOnly = $this->nLength;
             $this->sAlphasOnly = - $this->nLength;
         }
-        if ($this->nAlphaLC === 0 && $this->nAlphaUC === 0 && $this->nSymbol === 0 && $this->nNumber > 0) {  // Only Numbers
+        if ($this->nAlphaLowerCase === 0 && $this->nAlphaUpperCase === 0 && $this->nSymbol === 0 && $this->nNumber > 0) {  // Only Numbers
             $this->nNumbersOnly = $this->nLength;
             $this->sNumbersOnly = - $this->nLength;
         }
         if ($this->nRepChar > 0) {  // Same character exists more than once
             $this->sRepChar = - $this->sRepChar;
         }
-        if ($this->nConsecAlphaUC > 0) {  // Consecutive Uppercase Letters exist
-            $this->sConsecAlphaUC = - $this->nConsecAlphaUC * $this->nMultConsecAlphaUC;
+        if ($this->nConsecAlphaUpperCase > 0) {  // Consecutive Uppercase Letters exist
+            $this->sConsecAlphaUpperCase = - $this->nConsecAlphaUpperCase * $this->nMultConsecAlphaUpperCase;
         }
-        if ($this->nConsecAlphaLC > 0) {  // Consecutive Lowercase Letters exist
-            $this->sConsecAlphaLC = - $this->nConsecAlphaLC * $this->nMultConsecAlphaLC;
+        if ($this->nConsecAlphaLowerCase > 0) {  // Consecutive Lowercase Letters exist
+            $this->sConsecAlphaLowerCase = - $this->nConsecAlphaLowerCase * $this->nMultConsecAlphaLowerCase;
         }
         if ($this->nConsecNumber > 0) {  // Consecutive Numbers exist
             $this->sConsecNumber = - $this->nConsecNumber * $this->nMultConsecNumber;

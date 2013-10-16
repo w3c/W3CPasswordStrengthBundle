@@ -11,31 +11,31 @@ namespace W3C\PasswordStrengthBundle\Model;
 
 class PasswordStrengthTester {
 
-    private $nMultAlphaUC;
-    private $nMultAlphaLC;
+    private $nMultAlphaUpperCase;
+    private $nMultAlphaLowerCase;
     private $nMultNumber;
     private $nMultSymbol;
     private $nMultMidChar;
 
-    private $nMultConsecAlphaUC;
-    private $nMultConsecAlphaLC;
+    private $nMultConsecAlphaUpperCase;
+    private $nMultConsecAlphaLowerCase;
     private $nMultConsecNumber;
 
     private $nMultSeqAlpha;
     private $nMultSeqNumber;
 
     public function __construct($nMultLength=4,
-                                $nMultAlphaUC=2, $nMultAlphaLC=2, $nMultNumber=4, $nMultSymbol=6, $nMultMidChar=2,
-                                $nMultConsecAlphaUC=2, $nMultConsecAlphaLC=2, $nMultConsecNumber=2,
+                                $nMultAlphaUpperCase=2, $nMultAlphaLowerCase=2, $nMultNumber=4, $nMultSymbol=6, $nMultMidChar=2,
+                                $nMultConsecAlphaUpperCase=2, $nMultConsecAlphaLowerCase=2, $nMultConsecNumber=2,
                                 $nMultSeqAlpha=3, $nMultSeqNumber=3) {
         $this->nMultLength = $nMultLength;
-        $this->nMultAlphaUC = $nMultAlphaUC;
-        $this->nMultAlphaLC = $nMultAlphaLC;
+        $this->nMultAlphaUpperCase = $nMultAlphaUpperCase;
+        $this->nMultAlphaLowerCase = $nMultAlphaLowerCase;
         $this->nMultNumber = $nMultNumber;
         $this->nMultSymbol = $nMultSymbol;
         $this->nMultMidChar = $nMultMidChar;
-        $this->nMultConsecAlphaUC = $nMultConsecAlphaUC;
-        $this->nMultConsecAlphaLC = $nMultConsecAlphaLC;
+        $this->nMultConsecAlphaUpperCase = $nMultConsecAlphaUpperCase;
+        $this->nMultConsecAlphaLowerCase = $nMultConsecAlphaLowerCase;
         $this->nMultConsecNumber = $nMultConsecNumber;
         $this->nMultSeqAlpha = $nMultSeqAlpha;
         $this->nMultSeqNumber = $nMultSeqNumber;
@@ -43,14 +43,14 @@ class PasswordStrengthTester {
 
     public function check($password) {
         $strength = new PasswordStrength($this->nMultLength,
-                                         $this->nMultAlphaUC, $this->nMultAlphaLC, $this->nMultNumber, $this->nMultSymbol, $this->nMultMidChar,
-                                         $this->nMultConsecAlphaUC, $this->nMultConsecAlphaLC, $this->nMultConsecNumber, $this->nMultSeqAlpha, $this->nMultSeqNumber);
+                                         $this->nMultAlphaUpperCase, $this->nMultAlphaLowerCase, $this->nMultNumber, $this->nMultSymbol, $this->nMultMidChar,
+                                         $this->nMultConsecAlphaUpperCase, $this->nMultConsecAlphaLowerCase, $this->nMultConsecNumber, $this->nMultSeqAlpha, $this->nMultSeqNumber);
 
         $strength->nLength = UTF8Utils::utf8_strlen($password);
 
         // Number of characters of each class
-        $strength->nAlphaLC = preg_match_all('/[a-z]/', $password);
-        $strength->nAlphaUC = preg_match_all('/[A-Z]/', $password);
+        $strength->nAlphaLowerCase = preg_match_all('/[a-z]/', $password);
+        $strength->nAlphaUpperCase = preg_match_all('/[A-Z]/', $password);
         $strength->nNumber  = preg_match_all('/[0-9]/', $password);
         $strength->nSymbol  = $strength->nLength - preg_match_all('/[a-zA-Z0-9 ]/', $password);
 
@@ -59,14 +59,14 @@ class PasswordStrengthTester {
 
         // Number of consecutive characters of each class
         preg_match_all('/[a-z]{2,}/', $password, $matches);
-        $strength->nConsecAlphaLC = array_reduce($matches[0], function($result, $item) {
+        $strength->nConsecAlphaLowerCase = array_reduce($matches[0], function($result, $item) {
             if(count($item) !== 0) {
                 $result = $result + UTF8Utils::utf8_strlen($item) - 1;
             }
             return $result;
         });
         preg_match_all('/[A-Z]{2,}/', $password, $matches);
-        $strength->nConsecAlphaUC = array_reduce($matches[0], function($result, $item) {
+        $strength->nConsecAlphaUpperCase = array_reduce($matches[0], function($result, $item) {
             if(count($item) !== 0) {
                 $result = $result + UTF8Utils::utf8_strlen($item) - 1;
             }

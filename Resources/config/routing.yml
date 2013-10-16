@@ -1,0 +1,6 @@
+password_strength_test:
+    pattern: /
+    defaults: { _controller: W3CPasswordStrengthBundle:Default:index, _format: json, _method: GET }
+    schemes: [https]
+    options:
+        expose: true
