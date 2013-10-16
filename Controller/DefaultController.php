@@ -10,12 +10,15 @@ use W3C\PasswordStrengthBundle\Model\PasswordStrengthTester;
 
 class DefaultController extends Controller {
     /**
-     * @Route("/test/{password}")
      * @Rest\View
      */
-    public function indexAction($password) {
+    public function indexAction() {
+        $request = $this->getRequest();
         $pst = new PasswordStrengthTester();
-        $strength = $pst->check($password);
-        return $strength;
+        $strength = $pst->check($request->query->get('password'));
+
+        return array("strength" => $strength,
+                     "normalized_score" => $strength->getNormalizedScore(),
+                     "message" => $strength->getComplexity());
     }
 }
