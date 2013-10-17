@@ -1,5 +1,5 @@
 {
-    "name": "W3C/PasswordStrengthBundle",
+    "name": "w3c/password-strength-bundle",
     "type": "symfony-bundle",
     "description": "Symfony password strength checker bundle",
     "keywords": ["User management"],
