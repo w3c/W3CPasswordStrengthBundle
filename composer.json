@@ -23,5 +23,5 @@
     "autoload": {
         "psr-0": { "W3C\\PasswordStrengthBundle": "" }
     },
-    "target-dir": "."
+    "target-dir": "W3C/PasswordStrengthBundle"
 }
