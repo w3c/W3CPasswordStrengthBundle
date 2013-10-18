@@ -1,4 +1,4 @@
-<?php
+?<php
 /**
  * PasswordStrength.php
  *
@@ -28,7 +28,7 @@ class PasswordStrengthValidator extends ConstraintValidator {
         $pst = new PasswordStrengthTester();
         $strength = $pst->check($value);
 
-        if ($strength->score < 40) {
+        if ($strength->score < $constraint->minScore) {
             $this->context->addViolation($constraint->message);
         }
     }
