@@ -46,6 +46,21 @@ class PasswordStrengthTester {
                                          $this->nMultAlphaUpperCase, $this->nMultAlphaLowerCase, $this->nMultNumber, $this->nMultSymbol, $this->nMultMidChar,
                                          $this->nMultConsecAlphaUpperCase, $this->nMultConsecAlphaLowerCase, $this->nMultConsecNumber, $this->nMultSeqAlpha, $this->nMultSeqNumber);
 
+        $this->countChars($password, $strength);
+
+        // Number of consecutive characters of each class
+        $this->consecutiveChars($password, $strength);
+
+        // Repeated characters
+        $this->repeatedCharacters($password, $strength);
+
+        $strength->computeScores();
+
+        return $strength;
+    }
+
+
+    private function countChars($password, &$strength) {
         $strength->nLength = UTF8Utils::utf8Strlen($password);
 
         // Number of characters of each class
@@ -56,7 +71,9 @@ class PasswordStrengthTester {
 
         // Number of non alphabetical chars in the middle of the password
         $strength->nMidChar = $strength->nLength - 2 - preg_match_all('/[a-zA-Z ]/', UTF8Utils::utf8Substr($password, 1, $strength->nLength - 2));
+    }
 
+    private function consecutiveChars($password, &$strength) {
         // Number of consecutive characters of each class
         preg_match_all('/[a-z]{2,}/', $password, $matches);
         $strength->nConsecAlphaLowerCase = array_reduce($matches[0], function($result, $item) {
@@ -79,8 +96,9 @@ class PasswordStrengthTester {
             }
             return $result;
         });
+    }
 
-        // Repeated characters
+    private function repeatedCharacters($password, &$strength) {
         for($i = 0; $i < $strength->nLength; $i++) {
             $bCharExists = false;
             $char = UTF8Utils::utf8Substr($password, $i, 1);
@@ -88,7 +106,7 @@ class PasswordStrengthTester {
                 if(($i !== $j) && ($char === UTF8Utils::utf8Substr($password, $j, 1))) {
                     $bCharExists = true;
                     /*
-                    Calculate icrement deduction based on proximity to identical characters
+                    Calculate increment deduction based on proximity to identical characters
                     Deduction is incremented each time a new match is discovered
                     Deduction amount is based on total password length divided by the
                     difference of distance between currently selected match
@@ -140,10 +158,6 @@ class PasswordStrengthTester {
                 }
             }
         }
-
-        $strength->computeScores();
-
-        return $strength;
     }
 }
 
