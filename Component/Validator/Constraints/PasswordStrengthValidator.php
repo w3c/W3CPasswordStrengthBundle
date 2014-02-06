@@ -21,7 +21,7 @@ class PasswordStrengthValidator extends ConstraintValidator {
      * {@inheritDoc}
      */
     public function validate($value, Constraint $constraint) {
-        if (null === $value) {
+        if (null === $value || '' === $value || 0 === $value) {
             return;
         }
 
