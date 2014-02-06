@@ -9,7 +9,7 @@
 namespace W3C\PasswordStrengthBundle\Model;
 
 class UTF8Utils {
-    public static function utf8_strlen($string) {
+    public static function utf8Strlen($string) {
         if (function_exists('grapheme_strlen')) {
             return grapheme_strlen($string);
         } elseif (function_exists('mb_strlen')) {
@@ -19,7 +19,7 @@ class UTF8Utils {
         }
     }
 
-    public static function utf8_substr($string , $start, $length=NULL) {
+    public static function utf8Substr($string , $start, $length=NULL) {
         if (function_exists('grapheme_substr')) {
             return grapheme_substr($string, $start, $length);
         } elseif (function_exists('mb_sustr')) {
