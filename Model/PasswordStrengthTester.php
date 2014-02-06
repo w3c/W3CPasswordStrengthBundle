@@ -46,7 +46,7 @@ class PasswordStrengthTester {
                                          $this->nMultAlphaUpperCase, $this->nMultAlphaLowerCase, $this->nMultNumber, $this->nMultSymbol, $this->nMultMidChar,
                                          $this->nMultConsecAlphaUpperCase, $this->nMultConsecAlphaLowerCase, $this->nMultConsecNumber, $this->nMultSeqAlpha, $this->nMultSeqNumber);
 
-        $strength->nLength = UTF8Utils::utf8_strlen($password);
+        $strength->nLength = UTF8Utils::utf8Strlen($password);
 
         // Number of characters of each class
         $strength->nAlphaLowerCase = preg_match_all('/[a-z]/', $password);
@@ -55,27 +55,27 @@ class PasswordStrengthTester {
         $strength->nSymbol  = $strength->nLength - preg_match_all('/[a-zA-Z0-9 ]/', $password);
 
         // Number of non alphabetical chars in the middle of the password
-        $strength->nMidChar = $strength->nLength - 2 - preg_match_all('/[a-zA-Z ]/', UTF8Utils::utf8_substr($password, 1, $strength->nLength - 2));
+        $strength->nMidChar = $strength->nLength - 2 - preg_match_all('/[a-zA-Z ]/', UTF8Utils::utf8Substr($password, 1, $strength->nLength - 2));
 
         // Number of consecutive characters of each class
         preg_match_all('/[a-z]{2,}/', $password, $matches);
         $strength->nConsecAlphaLowerCase = array_reduce($matches[0], function($result, $item) {
             if(count($item) !== 0) {
-                $result = $result + UTF8Utils::utf8_strlen($item) - 1;
+                $result = $result + UTF8Utils::utf8Strlen($item) - 1;
             }
             return $result;
         });
         preg_match_all('/[A-Z]{2,}/', $password, $matches);
         $strength->nConsecAlphaUpperCase = array_reduce($matches[0], function($result, $item) {
             if(count($item) !== 0) {
-                $result = $result + UTF8Utils::utf8_strlen($item) - 1;
+                $result = $result + UTF8Utils::utf8Strlen($item) - 1;
             }
             return $result;
         });
         preg_match_all('/[0-9]{2,}/', $password, $matches);
         $strength->nConsecNumber = array_reduce($matches[0], function($result, $item) {
             if(count($item) !== 0) {
-                $result = $result + UTF8Utils::utf8_strlen($item) - 1;
+                $result = $result + UTF8Utils::utf8Strlen($item) - 1;
             }
             return $result;
         });
@@ -83,9 +83,9 @@ class PasswordStrengthTester {
         // Repeated characters
         for($i = 0; $i < $strength->nLength; $i++) {
             $bCharExists = false;
-            $char = UTF8Utils::utf8_substr($password, $i, 1);
+            $char = UTF8Utils::utf8Substr($password, $i, 1);
             for($j = 0; $j < $strength->nLength; $j++) {
-                if(($i !== $j) && ($char === UTF8Utils::utf8_substr($password, $j, 1))) {
+                if(($i !== $j) && ($char === UTF8Utils::utf8Substr($password, $j, 1))) {
                     $bCharExists = true;
                     /*
                     Calculate icrement deduction based on proximity to identical characters
@@ -105,17 +105,17 @@ class PasswordStrengthTester {
             if($i < $strength->nLength-2) {
                 if(preg_match('/[a-zA-Z]/', $char)) {
                     $char_value = ord(strtoupper($char));
-                    $next_char = UTF8Utils::utf8_substr($password, $i+1, 1);
+                    $next_char = UTF8Utils::utf8Substr($password, $i+1, 1);
                     $next_char_value = ord(strtoupper($next_char));
                     if($char_value !== 89 && $char_value !== 90 && $char_value+1 === $next_char_value) {
-                        $next2_char = UTF8Utils::utf8_substr($password, $i+2, 1);
+                        $next2_char = UTF8Utils::utf8Substr($password, $i+2, 1);
                         $next2_char_value = ord(strtoupper($next2_char));
                         if($next_char_value+1 === $next2_char_value) {
                             $strength->nSeqAlpha++;
                             $strength->nSeqChar++;
                         }
                     } elseif($char_value !== 65 && $char_value !== 66 && $char_value-1 === $next_char_value) {
-                        $next2_char = UTF8Utils::utf8_substr($password, $i+2, 1);
+                        $next2_char = UTF8Utils::utf8Substr($password, $i+2, 1);
                         $next2_char_value = ord(strtoupper($next2_char));
                         if($next_char_value-1 === $next2_char_value) {
                             $strength->nSeqAlpha++;
@@ -123,15 +123,15 @@ class PasswordStrengthTester {
                         }
                     }
                 } elseif(preg_match('/[0-9]/', $char)) {
-                    $next_char = (int)UTF8Utils::utf8_substr($password, $i+1, 1);
+                    $next_char = (int)UTF8Utils::utf8Substr($password, $i+1, 1);
                     if((int)$char !== 8 && (int)$char !== 9 && (int)$char+1 === $next_char) {
-                        $next2_char = (int)UTF8Utils::utf8_substr($password, $i+2, 1);
+                        $next2_char = (int)UTF8Utils::utf8Substr($password, $i+2, 1);
                         if($next_char+1 === $next2_char) {
                             $strength->nSeqNumber++;
                             $strength->nSeqChar++;
                         }
                     } elseif((int)$char !== 0 && (int)$char !== 1 && (int)$char-1 === $next_char) {
-                        $next2_char = (int)UTF8Utils::utf8_substr($password, $i+2, 1);
+                        $next2_char = (int)UTF8Utils::utf8Substr($password, $i+2, 1);
                         if($next_char-1 === $next2_char) {
                             $strength->nSeqNumber++;
                             $strength->nSeqChar++;
