@@ -14,9 +14,9 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^8.2",
-        "symfony/framework-bundle": "5.4.*",
-        "symfony/yaml": "5.4.*",
-        "symfony/validator": "5.4.*"
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/yaml": "6.4.*",
+        "symfony/validator": "6.4.*"
     },
     "autoload": {
         "psr-4": {
