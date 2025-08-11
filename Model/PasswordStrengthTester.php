@@ -77,21 +77,21 @@ class PasswordStrengthTester {
         // Number of consecutive characters of each class
         preg_match_all('/[a-z]{2,}/', $password, $matches);
         $strength->nConsecAlphaLowerCase = array_reduce($matches[0], function($result, $item) {
-            if(count($item) !== 0) {
+            if(UTF8Utils::utf8Strlen($item) !== 0) {
                 $result = $result + UTF8Utils::utf8Strlen($item) - 1;
             }
             return $result;
         });
         preg_match_all('/[A-Z]{2,}/', $password, $matches);
         $strength->nConsecAlphaUpperCase = array_reduce($matches[0], function($result, $item) {
-            if(count($item) !== 0) {
+            if(UTF8Utils::utf8Strlen($item) !== 0) {
                 $result = $result + UTF8Utils::utf8Strlen($item) - 1;
             }
             return $result;
         });
         preg_match_all('/[0-9]{2,}/', $password, $matches);
         $strength->nConsecNumber = array_reduce($matches[0], function($result, $item) {
-            if(count($item) !== 0) {
+            if(UTF8Utils::utf8Strlen($item) !== 0) {
                 $result = $result + UTF8Utils::utf8Strlen($item) - 1;
             }
             return $result;

@@ -1,6 +1,12 @@
 services:
-    w3c.validator.passwordstrength:
-        class:        W3C\PasswordStrengthBundle\Component\Validator\Constraints\PasswordStrengthValidator
+    W3C\PasswordStrengthBundle\Controller\DefaultController:
+        tags: [ 'controller.service_arguments' ]
+        calls:
+            -   method: setContainer
+                arguments: [ '@service_container' ]
+        public: true
+    W3C\PasswordStrengthBundle\Component\Validator\Constraints\PasswordStrengthValidator:
+        class:
         tags:
-                - { name: validator.constraint_validator, alias: w3c.validator.passwordstrength }
+            - { name: validator.constraint_validator, alias: w3c.validator.passwordstrength }
 

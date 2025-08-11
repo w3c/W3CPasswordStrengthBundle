@@ -15,9 +15,9 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('w3c_password_strength');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

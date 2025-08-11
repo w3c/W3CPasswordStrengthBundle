@@ -2,21 +2,22 @@
 
 namespace W3C\PasswordStrengthBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use W3C\PasswordStrengthBundle\Model\PasswordStrengthTester;
 
-class DefaultController extends Controller {
-    /**
-     * @Rest\View
-     */
-    public function indexAction() {
-        $request = $this->getRequest();
+class DefaultController extends AbstractController {
+    public function indexAction(Request $request): JsonResponse
+    {
         $pst = new PasswordStrengthTester();
-        $strength = $pst->check($request->query->get('password'));
+        $strength = $pst->check($request->request->get('password'));
 
-        return array("strength" => $strength,
-                     "normalized_score" => $strength->getNormalizedScore(),
-                     "message" => $strength->getComplexity());
+        return new JsonResponse([
+            "strength"         => $strength,
+            "normalized_score" => $strength->getNormalizedScore(),
+            "message"          => $strength->getComplexity()
+        ]);
     }
 }
